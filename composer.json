@@ -1,9 +1,9 @@
 {
-    "name": "bandwidth-throttle/token-bucket",
+    "name": "villermen/token-bucket",
     "type": "library",
-    "description": "Implementation of the Token Bucket algorithm.",
+    "description": "Implementation of the Token Bucket algorithm with zend-cache support.",
     "keywords": ["token bucket", "bandwidth", "rate limit", "throttle", "throttling", "rate limiting"],
-    "homepage": "https://github.com/bandwidth-throttle/token-bucket",
+    "homepage": "https://github.com/villermen/token-bucket",
     "license": "WTFPL",
     "authors": [
         {
@@ -11,6 +11,10 @@
             "email": "markus@malkusch.de",
             "homepage": "http://markus.malkusch.de",
             "role": "Developer"
+        },
+        {
+            "name": "Villermen",
+            "email": "villermen@gmail.com"
         }
     ],
     "autoload": {
@@ -31,5 +35,10 @@
     },
     "archive": {
         "exclude": ["/tests"]
+    },
+    "config": {
+        "platform": {
+            "php": "5.6.0"
+        }
     }
 }
