@@ -7,14 +7,12 @@
     "license": "WTFPL",
     "authors": [
         {
-            "name": "Markus Malkusch",
-            "email": "markus@malkusch.de",
-            "homepage": "http://markus.malkusch.de",
-            "role": "Developer"
-        },
-        {
             "name": "Villermen",
             "email": "villermen@gmail.com"
+        },
+        {
+            "name": "Markus Malkusch",
+            "email": "markus@malkusch.de"
         }
     ],
     "autoload": {
