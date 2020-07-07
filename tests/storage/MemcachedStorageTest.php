@@ -2,27 +2,12 @@
 
 namespace bandwidthThrottle\tokenBucket\storage;
 
-/**
- * Tests for MemcachedStorage.
- *
- * These tests need the environment variable MEMCACHE_HOST.
- *
- * @author Markus Malkusch <markus@malkusch.de>
- * @link bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK Donations
- * @license WTFPL
- * @see MemcachedStorage
- */
 class MemcachedStorageTest extends \PHPUnit_Framework_TestCase
 {
-
-    /**
-     * @var \Memcached The memcached API.
-     */
+    /** @var \Memcached The memcached API. */
     private $memcached;
 
-    /**
-     * @var MemcachedStorage The SUT.
-     */
+    /** @var MemcachedStorage The SUT. */
     private $storage;
     
     protected function setUp()
@@ -54,8 +39,6 @@ class MemcachedStorageTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Tests bootstrap() returns silenty if the key exists already.
-     *
-     * @test
      */
     public function testBootstrapReturnsSilentlyIfKeyExists()
     {
@@ -65,8 +48,7 @@ class MemcachedStorageTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests bootstrap() fails.
      *
-     * @test
-     * @expectedException bandwidthThrottle\tokenBucket\storage\StorageException
+     * @expectedException StorageException
      */
     public function testBootstrapFails()
     {
@@ -77,8 +59,7 @@ class MemcachedStorageTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests isBootstrapped() fails
      *
-     * @test
-     * @expectedException bandwidthThrottle\tokenBucket\storage\StorageException
+     * @expectedException StorageException
      */
     public function testIsBootstrappedFails()
     {
@@ -88,8 +69,7 @@ class MemcachedStorageTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests remove() fails
      *
-     * @test
-     * @expectedException bandwidthThrottle\tokenBucket\storage\StorageException
+     * @expectedException StorageException
      */
     public function testRemoveFails()
     {
@@ -100,8 +80,7 @@ class MemcachedStorageTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests setMicrotime() fails if getMicrotime() wasn't called first.
      *
-     * @test
-     * @expectedException bandwidthThrottle\tokenBucket\storage\StorageException
+     * @expectedException StorageException
      */
     public function testSetMicrotimeFailsIfGetMicrotimeNotCalledFirst()
     {
@@ -111,8 +90,7 @@ class MemcachedStorageTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests setMicrotime() fails.
      *
-     * @test
-     * @expectedException bandwidthThrottle\tokenBucket\storage\StorageException
+     * @expectedException StorageException
      */
     public function testSetMicrotimeFails()
     {
@@ -123,8 +101,6 @@ class MemcachedStorageTest extends \PHPUnit_Framework_TestCase
     
     /**
      * Tests setMicrotime() returns silenty if the cas operation failed.
-     *
-     * @test
      */
     public function testSetMicrotimeReturnsSilentlyIfCASFailed()
     {
@@ -143,8 +119,7 @@ class MemcachedStorageTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests getMicrotime() fails.
      *
-     * @test
-     * @expectedException bandwidthThrottle\tokenBucket\storage\StorageException
+     * @expectedException StorageException
      */
     public function testGetMicrotimeFails()
     {

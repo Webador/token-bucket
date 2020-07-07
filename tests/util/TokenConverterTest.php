@@ -5,14 +5,6 @@ namespace bandwidthThrottle\tokenBucket\util;
 use bandwidthThrottle\tokenBucket\Rate;
 use phpmock\phpunit\PHPMock;
 
-/**
- * Tests for TokenConverter.
- *
- * @author Markus Malkusch <markus@malkusch.de>
- * @link bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK Donations
- * @license WTFPL
- * @see TokenConverter
- */
 class TokenConverterTest extends \PHPUnit_Framework_TestCase
 {
 
@@ -21,11 +13,9 @@ class TokenConverterTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests convertSecondsToTokens().
      *
-     * @param int    $expected The expected tokens.
-     * @param double $seconds  The seconds.
-     * @param Rate   $rate     The rate.
-     *
-     * @test
+     * @param int $expected
+     * @param float $seconds
+     * @param Rate $rate
      * @dataProvider provideTestConvertSecondsToTokens
      */
     public function testConvertSecondsToTokens($expected, $seconds, Rate $rate)
@@ -58,11 +48,9 @@ class TokenConverterTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests convertTokensToSeconds().
      *
-     * @param double $expected The expected seconds.
-     * @param int    $tokens   The tokens.
-     * @param Rate   $rate     The rate.
-     *
-     * @test
+     * @param float $expected
+     * @param int $tokens
+     * @param Rate $rate
      * @dataProvider provideTestconvertTokensToSeconds
      */
     public function testconvertTokensToSeconds($expected, $tokens, Rate $rate)
@@ -89,11 +77,9 @@ class TokenConverterTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests convertTokensToMicrotime().
      *
-     * @param double $delta  The expected delta.
-     * @param int    $tokens The tokens.
-     * @param Rate   $rate   The rate.
-     *
-     * @test
+     * @param float $delta
+     * @param int $tokens
+     * @param Rate $rate
      * @dataProvider provideTestConvertTokensToMicrotime
      */
     public function testConvertTokensToMicrotime($delta, $tokens, Rate $rate)

@@ -2,24 +2,14 @@
 
 namespace bandwidthThrottle\tokenBucket\util;
 
-/**
- * Tests for DoublePacker.
- *
- * @author Markus Malkusch <markus@malkusch.de>
- * @link bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK Donations
- * @license WTFPL
- * @see DoublePacker
- */
+use bandwidthThrottle\tokenBucket\storage\StorageException;
+
 class DoublePackerTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
-     * Tests pack().
-     *
-     * @param string $expected The expected string.
-     * @param double $input    The input double.
-     *
-     * @test
+     * @param string $expected
+     * @param float $input
      * @dataProvider provideTestPack
      */
     public function testPack($expected, $input)
@@ -42,13 +32,9 @@ class DoublePackerTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
-     * Tests unpack() fails.
-     *
      * @param string $input The input string.
-     *
-     * @test
      * @dataProvider provideTestUnpackFails
-     * @expectedException \bandwidthThrottle\tokenBucket\storage\StorageException
+     * @expectedException StorageException
      */
     public function testUnpackFails($input)
     {
@@ -70,12 +56,8 @@ class DoublePackerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests unpack().
-     *
-     * @param double $expected The expected double.
-     * @param string $input    The input string.
-     *
-     * @test
+     * @param float $expected
+     * @param string $input
      * @dataProvider provideTestUnpack
      */
     public function testUnpack($expected, $input)

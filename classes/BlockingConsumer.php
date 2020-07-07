@@ -5,29 +5,18 @@ namespace bandwidthThrottle\tokenBucket;
 use bandwidthThrottle\tokenBucket\storage\StorageException;
 
 /**
- * Blocking token bucket consumer.
- *
- * @author Markus Malkusch <markus@malkusch.de>
- * @link bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK Donations
- * @license WTFPL
+ * A {@see TokenBucket} consumer that will halt execution until the requested amount of tokens becomes available.
  */
 final class BlockingConsumer
 {
-    
-    /**
-     * @var TokenBucket The token bucket.
-     */
+    /** @var TokenBucket The bucket to consume from. */
     private $bucket;
     
-    /**
-     * @var int|null optional timeout in seconds.
-     */
+    /** @var int|null Optional timeout in seconds. */
     private $timeout;
 
     /**
-     * Set the token bucket and an optional timeout.
-     *
-     * @param TokenBucket $bucket The token bucket.
+     * @param TokenBucket $bucket The bucket to consume from.
      * @param int|null $timeout Optional timeout in seconds.
      */
     public function __construct(TokenBucket $bucket, $timeout = null)
@@ -41,10 +30,8 @@ final class BlockingConsumer
     }
     
     /**
-     * Consumes tokens.
-     *
-     * If the underlying token bucket doesn't have sufficient tokens, the
-     * consumer blocks until it can consume the tokens.
+     * Consumes tokens form the underlying {@see TokenBucket}. If it doesn't have enough tokens, script execution will
+     * be halted (up till timeout if set) until they can be consumed.
      *
      * @param int $tokens The token amount.
      *
@@ -74,10 +61,8 @@ final class BlockingConsumer
     }
     
     /**
-     * Checks if the timeout was exceeded.
-     *
-     * @param float|null $timedOut Timestamp when to time out.
-     * @throws TimeoutException The timeout was exceeded.
+     * @param float|null $timedOut
+     * @throws TimeoutException
      */
     private static function throwTimeoutIfExceeded($timedOut)
     {
@@ -92,10 +77,9 @@ final class BlockingConsumer
     /**
      * Adjusts the wait seconds to be within the timeout.
      *
-     * @param float $seconds Seconds to wait for the next consume try.
-     * @param float|null $timedOut Timestamp when to time out.
-     *
-     * @return float Seconds for waiting
+     * @param float $seconds
+     * @param float|null $timedOut
+     * @return float
      */
     private static function keepSecondsWithinTimeout($seconds, $timedOut)
     {

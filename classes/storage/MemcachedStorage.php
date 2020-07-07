@@ -7,49 +7,29 @@ use malkusch\lock\mutex\CASMutex;
 
 /**
  * Memcached based storage which can be shared among processes.
- *
- * This storage is in the global scope.
- *
- * @author Markus Malkusch <markus@malkusch.de>
- * @link bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK Donations
- * @license WTFPL
  */
 final class MemcachedStorage implements Storage, GlobalScope
 {
+    const PREFIX = "TokenBucketD_";
 
-    /**
-     * @var \Memcached The memcached API.
-     */
+    /** @var \Memcached The memcached API. */
     private $memcached;
     
-    /**
-     * @var float The CAS token.
-     */
+    /** @var float The CAS token. */
     private $casToken;
     
-    /**
-     * @var string The key for the token bucket.
-     */
+    /** @var string The key for the token bucket. */
     private $key;
     
-    /**
-     * @var CASMutex The mutex for this storage.
-     */
+    /** @var CASMutex The mutex for this storage. */
     private $mutex;
-
-    /**
-     * @internal
-     */
-    const PREFIX = "TokenBucketD_";
     
     /**
-     * Sets the memcached API and the token bucket name.
-     *
-     * The api needs to have at least one server in its pool. I.e.
+     * Sets the memcached API and the token bucket name. The API needs to have at least one server in its pool. I.e.,
      * it has to be added with Memcached::addServer().
      *
-     * @param string     $name      The name of the shared token bucket.
-     * @param \Memcached $memcached The memcached API.
+     * @param string $name
+     * @param \Memcached $memcached
      */
     public function __construct($name, \Memcached $memcached)
     {

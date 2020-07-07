@@ -6,20 +6,9 @@ use phpmock\environment\SleepEnvironmentBuilder;
 use phpmock\environment\MockEnvironment;
 use bandwidthThrottle\tokenBucket\storage\SingleProcessStorage;
 
-/**
- * Test for BlockingConsumer.
- *
- * @author Markus Malkusch <markus@malkusch.de>
- * @link bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK Donations
- * @license WTFPL
- * @see BlockingConsumer
- */
 class BlockingConsumerTest extends \PHPUnit_Framework_TestCase
 {
-    
-    /**
-     * @var MockEnvironment Mock for microtime() and usleep().
-     */
+    /** @var MockEnvironment Mock for microtime() and usleep(). */
     private $sleepEnvironent;
     
     protected function setUp()
@@ -40,8 +29,6 @@ class BlockingConsumerTest extends \PHPUnit_Framework_TestCase
     
     /**
      * Tests comsumption of cumulated tokens.
-     *
-     * @test
      */
     public function testConsecutiveConsume()
     {
@@ -69,12 +56,10 @@ class BlockingConsumerTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests consume().
      *
-     * @param double $expected The expected duration.
-     * @param int    $tokens   The tokens to consume.
-     * @param Rate   $rate     The rate.
-     *
+     * @param float $expected
+     * @param int $tokens
+     * @param Rate $rate
      * @dataProvider provideTestConsume
-     * @test
      */
     public function testConsume($expected, $tokens, Rate $rate)
     {
@@ -105,8 +90,6 @@ class BlockingConsumerTest extends \PHPUnit_Framework_TestCase
     
     /**
      * Tests consume() won't sleep less than one millisecond.
-     *
-     * @test
      */
     public function testMinimumSleep()
     {
@@ -125,7 +108,6 @@ class BlockingConsumerTest extends \PHPUnit_Framework_TestCase
      * consume() should fail after a timeout.
      *
      * @expectedException \bandwidthThrottle\tokenBucket\TimeoutException
-     * @test
      */
     public function consumeShouldFailAfterTimeout()
     {
@@ -139,8 +121,6 @@ class BlockingConsumerTest extends \PHPUnit_Framework_TestCase
     
     /**
      * consume() should not fail before a timeout.
-     *
-     * @test
      */
     public function consumeShouldNotFailBeforeTimeout()
     {
@@ -154,8 +134,6 @@ class BlockingConsumerTest extends \PHPUnit_Framework_TestCase
     
     /**
      * consume() should not never time out.
-     *
-     * @test
      */
     public function consumeWithoutTimeoutShouldNeverFail()
     {

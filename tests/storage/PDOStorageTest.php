@@ -3,25 +3,15 @@
 namespace bandwidthThrottle\tokenBucket\storage;
 
 /**
- * Tests for PDOStorage.
- *
  * If you want to run vendor specific PDO tests you should provide these
  * environment variables:
  *
  * - MYSQL_DSN, MYSQL_USER
  * - PGSQL_DSN, PGSQL_USER
- *
- * @author Markus Malkusch <markus@malkusch.de>
- * @link bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK Donations
- * @license WTFPL
- * @see PDOStorage
  */
 class PDOStorageTest extends \PHPUnit_Framework_TestCase
 {
-
-    /**
-     * @var Storage[] The tested storages;
-     */
+    /** @var Storage[] The tested storages. */
     private $storages = [];
     
     protected function tearDown()
@@ -32,9 +22,7 @@ class PDOStorageTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
-     * Provides the PDO.
-     *
-     * @return PDO[][] The PDOs.
+     * @return \PDO[][] The PDOs.
      */
     public function providePDO()
     {
@@ -59,7 +47,6 @@ class PDOStorageTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests instantiation with a too long name should fail.
      *
-     * @test
      * @expectedException \LengthException
      */
     public function testTooLongNameFails()
@@ -71,8 +58,6 @@ class PDOStorageTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Tests instantiation with a long name should not fail.
-     *
-     * @test
      */
     public function testLongName()
     {
@@ -85,7 +70,6 @@ class PDOStorageTest extends \PHPUnit_Framework_TestCase
      * Tests instantiation with PDO in wrong error mode should fail.
      *
      * @param int $errorMode The invalid error mode.
-     * @test
      * @expectedException \InvalidArgumentException
      * @dataProvider provideTestInvalidErrorMode
      */
@@ -111,8 +95,6 @@ class PDOStorageTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Tests instantiation with PDO in valid error mode.
-     *
-     * @test
      */
     public function testValidErrorMode()
     {
@@ -126,7 +108,6 @@ class PDOStorageTest extends \PHPUnit_Framework_TestCase
      *
      * @param \PDO $pdo The PDO.
      * @dataProvider providePDO
-     * @test
      */
     public function testBootstrapAddsRow(\PDO $pdo)
     {
@@ -147,8 +128,7 @@ class PDOStorageTest extends \PHPUnit_Framework_TestCase
      *
      * @param \PDO $pdo The PDO.
      * @dataProvider providePDO
-     * @test
-     * @expectedException bandwidthThrottle\tokenBucket\storage\StorageException
+     * @expectedException StorageException
      */
     public function testBootstrapFailsForExistingRow(\PDO $pdo)
     {
@@ -165,7 +145,6 @@ class PDOStorageTest extends \PHPUnit_Framework_TestCase
      *
      * @param \PDO $pdo The PDO.
      * @dataProvider providePDO
-     * @test
      */
     public function testRemoveOneRow(\PDO $pdo)
     {
@@ -186,7 +165,6 @@ class PDOStorageTest extends \PHPUnit_Framework_TestCase
      *
      * @param \PDO $pdo The PDO.
      * @dataProvider providePDO
-     * @test
      */
     public function testRemoveTable(\PDO $pdo)
     {

@@ -9,8 +9,6 @@ use bandwidthThrottle\tokenBucket\TokenBucket;
 use bandwidthThrottle\tokenBucket\Rate;
 
 /**
- * Tests for Storage implementations.
- *
  * If you want to run vendor specific tests you should provide these
  * environment variables:
  *
@@ -18,18 +16,10 @@ use bandwidthThrottle\tokenBucket\Rate;
  * - PGSQL_DSN, PGSQL_USER
  * - MEMCACHE_HOST
  * - REDIS_URI
- *
- * @author Markus Malkusch <markus@malkusch.de>
- * @link bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK Donations
- * @license WTFPL
- * @see Storage
  */
 class StorageTest extends \PHPUnit_Framework_TestCase
 {
-
-    /**
-     * @var Storage The tested storage;
-     */
+    /** @var Storage The tested storage. */
     private $storage;
     
     protected function tearDown()
@@ -109,7 +99,6 @@ class StorageTest extends \PHPUnit_Framework_TestCase
      * Tests setMicrotime() and getMicrotime().
      *
      * @param callable $storageFactory Returns a storage.
-     * @test
      * @dataProvider provideStorageFactories
      */
     public function testSetAndGetMicrotime(callable $storageFactory)
@@ -133,7 +122,6 @@ class StorageTest extends \PHPUnit_Framework_TestCase
      * Tests isBootstrapped().
      *
      * @param callable $storageFactory Returns a storage.
-     * @test
      * @dataProvider provideStorageFactories
      */
     public function testBootstrap(callable $storageFactory)
@@ -149,7 +137,6 @@ class StorageTest extends \PHPUnit_Framework_TestCase
      * Tests isBootstrapped().
      *
      * @param callable $storageFactory Returns a storage.
-     * @test
      * @dataProvider provideStorageFactories
      */
     public function testIsBootstrapped(callable $storageFactory)
@@ -168,7 +155,6 @@ class StorageTest extends \PHPUnit_Framework_TestCase
      * Tests remove().
      *
      * @param callable $storageFactory Returns a storage.
-     * @test
      * @dataProvider provideStorageFactories
      */
     public function testRemove(callable $storageFactory)
@@ -184,7 +170,6 @@ class StorageTest extends \PHPUnit_Framework_TestCase
      * When no tokens are available, the bucket should return false.
      *
      * @param callable $storageFactory Returns a storage.
-     * @test
      * @dataProvider provideStorageFactories
      */
     public function testConsumingUnavailableTokensReturnsFalse(callable $storageFactory)
@@ -202,7 +187,6 @@ class StorageTest extends \PHPUnit_Framework_TestCase
      * When tokens are available, the bucket should return true.
      *
      * @param callable $storageFactory Returns a storage.
-     * @test
      * @dataProvider provideStorageFactories
      */
     public function testConsumingAvailableTokensReturnsTrue(callable $storageFactory)
@@ -220,7 +204,6 @@ class StorageTest extends \PHPUnit_Framework_TestCase
      * Tests synchronized bootstrap
      *
      * @param callable $storageFactory Returns a storage.
-     * @test
      * @dataProvider provideStorageFactories
      */
     public function testSynchronizedBootstrap(callable $storageFactory)

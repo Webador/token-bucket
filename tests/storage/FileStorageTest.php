@@ -6,14 +6,6 @@ use phpmock\phpunit\PHPMock;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamFile;
 
-/**
- * Tests for FileStorage.
- *
- * @author Markus Malkusch <markus@malkusch.de>
- * @link bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK Donations
- * @license WTFPL
- * @see FileStorage
- */
 class FileStorageTest extends \PHPUnit_Framework_TestCase
 {
 
@@ -22,7 +14,7 @@ class FileStorageTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests opening the file fails.
      *
-     * @expectedException bandwidthThrottle\tokenBucket\storage\StorageException
+     * @expectedException StorageException
      */
     public function testOpeningFails()
     {
@@ -33,7 +25,7 @@ class FileStorageTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests seeking fails in setMicrotime().
      *
-     * @expectedException bandwidthThrottle\tokenBucket\storage\StorageException
+     * @expectedException StorageException
      */
     public function testSetMicrotimeFailsSeeking()
     {
@@ -49,7 +41,7 @@ class FileStorageTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests writings fails in setMicrotime().
      *
-     * @expectedException bandwidthThrottle\tokenBucket\storage\StorageException
+     * @expectedException StorageException
      */
     public function testSetMicrotimeFailsWriting()
     {
@@ -65,7 +57,7 @@ class FileStorageTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests seeking fails in getMicrotime().
      *
-     * @expectedException bandwidthThrottle\tokenBucket\storage\StorageException
+     * @expectedException StorageException
      */
     public function testGetMicrotimeFailsSeeking()
     {
@@ -81,7 +73,7 @@ class FileStorageTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests reading fails in getMicrotime().
      *
-     * @expectedException bandwidthThrottle\tokenBucket\storage\StorageException
+     * @expectedException StorageException
      */
     public function testGetMicrotimeFailsReading()
     {
@@ -97,7 +89,7 @@ class FileStorageTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests readinging too little in getMicrotime().
      *
-     * @expectedException bandwidthThrottle\tokenBucket\storage\StorageException
+     * @expectedException StorageException
      */
     public function testGetMicrotimeReadsToLittle()
     {
@@ -112,8 +104,7 @@ class FileStorageTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests deleting fails.
      *
-     * @test
-     * @expectedException bandwidthThrottle\tokenBucket\storage\StorageException
+     * @expectedException StorageException
      */
     public function testRemoveFails()
     {

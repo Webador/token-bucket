@@ -5,27 +5,12 @@ namespace bandwidthThrottle\tokenBucket\storage;
 use Predis\Client;
 use Predis\ClientException;
 
-/**
- * Tests for PredisStorage.
- *
- * These tests need the environment variable REDIS_URI.
- *
- * @author Markus Malkusch <markus@malkusch.de>
- * @link bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK Donations
- * @license WTFPL
- * @see PredisStorage
- */
 class PredisStorageTest extends \PHPUnit_Framework_TestCase
 {
-
-    /**
-     * @var Client The API.
-     */
+    /** @var Client The API. */
     private $redis;
 
-    /**
-     * @var PredisStorage The SUT.
-     */
+    /** @var PredisStorage The SUT. */
     private $storage;
     
     protected function setUp()
@@ -43,8 +28,7 @@ class PredisStorageTest extends \PHPUnit_Framework_TestCase
      * Tests broken server communication.
      *
      * @param callable $method The tested method.
-     * @test
-     * @expectedException bandwidthThrottle\tokenBucket\storage\StorageException
+     * @expectedException StorageException
      * @dataProvider provideTestBrokenCommunication
      */
     public function testBrokenCommunication(callable $method)
@@ -85,8 +69,7 @@ class PredisStorageTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests remove() fails.
      *
-     * @test
-     * @expectedException bandwidthThrottle\tokenBucket\storage\StorageException
+     * @expectedException StorageException
      */
     public function testRemoveFails()
     {
@@ -99,8 +82,7 @@ class PredisStorageTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests setMicrotime() fails.
      *
-     * @test
-     * @expectedException bandwidthThrottle\tokenBucket\storage\StorageException
+     * @expectedException StorageException
      */
     public function testSetMicrotimeFails()
     {
@@ -115,8 +97,7 @@ class PredisStorageTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests getMicrotime() fails.
      *
-     * @test
-     * @expectedException bandwidthThrottle\tokenBucket\storage\StorageException
+     * @expectedException StorageException
      */
     public function testGetMicrotimeFails()
     {

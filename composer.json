@@ -1,9 +1,9 @@
 {
-    "name": "villermen/token-bucket",
+    "name": "jouwweb/token-bucket",
     "type": "library",
-    "description": "Implementation of the Token Bucket algorithm with zend-cache support.",
+    "description": "Implementation of the token bucket algorithm.",
     "keywords": ["token bucket", "bandwidth", "rate limit", "throttle", "throttling", "rate limiting"],
-    "homepage": "https://github.com/villermen/token-bucket",
+    "homepage": "https://github.com/jouwweb/token-bucket",
     "license": "WTFPL",
     "authors": [
         {

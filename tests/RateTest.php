@@ -2,24 +2,13 @@
 
 namespace bandwidthThrottle\tokenBucket;
 
-/**
- * Test for Rate.
- *
- * @author Markus Malkusch <markus@malkusch.de>
- * @link bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK Donations
- * @license WTFPL
- * @see Rate
- */
 class RateTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * Tests getTokensPerSecond().
      *
-     * @param double $expected The expected rate in tokens per second.
-     * @param Rate   $rate     The rate.
-     *
-     * @test
+     * @param float $expected
+     * @param Rate $rate
      * @dataProvider provideTestGetTokensPerSecond
      */
     public function testGetTokensPerSecond($expected, Rate $rate)
@@ -59,8 +48,7 @@ class RateTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests building a rate with an invalid unit fails.
      *
-     * @test
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testInvalidUnit()
     {
@@ -70,8 +58,7 @@ class RateTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests building a rate with an invalid amount fails.
      *
-     * @test
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @dataProvider provideTestInvalidAmount
      */
     public function testInvalidAmount($amount)

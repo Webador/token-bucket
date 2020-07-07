@@ -3,57 +3,43 @@
 namespace bandwidthThrottle\tokenBucket;
 
 /**
- * The rate.
- *
- * @author Markus Malkusch <markus@malkusch.de>
- * @link bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK Donations
- * @license WTFPL
+ * Defines a token production rate for a specified unit of time. E.g., `new Rate(100, Rate::SECOND)` will produce 100
+ * tokens per second.
  */
 final class Rate
 {
-    
     const MICROSECOND = "microsecond";
     const MILLISECOND = "millisecond";
     const SECOND = "second";
     const MINUTE = "minute";
-    const HOUR   = "hour";
-    const DAY    = "day";
-    const WEEK   = "week";
-    const MONTH  = "month";
-    const YEAR   = "year";
+    const HOUR = "hour";
+    const DAY = "day";
+    const WEEK = "week";
+    const MONTH = "month";
+    const YEAR = "year";
 
-    /**
-     * @var double[] Mapping between units and seconds
-     */
+    /** @var float[] Mapping from unit to seconds. */
     private static $unitMap = [
-        self::MICROSECOND =>        0.000001,
-        self::MILLISECOND =>        0.001,
-        self::SECOND      =>        1,
-        self::MINUTE      =>       60,
-        self::HOUR        =>     3600,
-        self::DAY         =>    86400,
-        self::WEEK        =>   604800,
-        self::MONTH       =>  2629743.83,
-        self::YEAR        => 31556926,
+        self::MICROSECOND => 0.000001,
+        self::MILLISECOND => 0.001,
+        self::SECOND => 1,
+        self::MINUTE => 60,
+        self::HOUR => 3600,
+        self::DAY => 86400,
+        self::WEEK => 604800,
+        self::MONTH => 2629743.83,
+        self::YEAR => 31556926,
     ];
     
-    /**
-     * @var int The amount of tokens to produce for the unit.
-     */
+    /** @var int Amount of tokens to produce per unit. */
     private $tokens;
 
-    /**
-     * @var string The unit.
-     */
+    /** @var string Unit as one of this class's constants. */
     private $unit;
     
     /**
-     * Sets the amount of tokens which will be produced per unit.
-     *
-     * E.g. new Rate(100, Rate::SECOND) will produce 100 tokens per second.
-     *
-     * @param int    $tokens positive amount of tokens to produce per unit
-     * @param string $unit   unit as one of Rate's constants
+     * @param int $tokens Amount of tokens to produce per unit.
+     * @param string $unit Unit as one of this class's constants.
      */
     public function __construct($tokens, $unit)
     {
@@ -70,8 +56,7 @@ final class Rate
     /**
      * Returns the rate in Tokens per second.
      *
-     * @return double The rate.
-     * @internal
+     * @return float
      */
     public function getTokensPerSecond()
     {

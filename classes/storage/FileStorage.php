@@ -6,42 +6,23 @@ use malkusch\lock\mutex\FlockMutex;
 use bandwidthThrottle\tokenBucket\storage\scope\GlobalScope;
 use bandwidthThrottle\tokenBucket\util\DoublePacker;
 
-/**
- * File based storage which can be shared among processes.
- *
- * This storage is in the global scope. However the scope is limited to the
- * underlying filesystem. I.e. the scope is not shared between hosts.
- *
- * @author Markus Malkusch <markus@malkusch.de>
- * @link bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK Donations
- * @license WTFPL
- */
 final class FileStorage implements Storage, GlobalScope
 {
- 
-    /**
-     * @var Mutex The mutex.
-     */
+    /** @var FlockMutex */
     private $mutex;
     
-    /**
-     * @var resource The file handle.
-     */
+    /** @var resource File handle. */
     private $fileHandle;
     
-    /**
-     * @var string The file path.
-     */
+    /** @var string File path. */
     private $path;
     
     /**
-     * Sets the file path and opens it.
+     * Sets and opens the file to write to and read from. The file will be created if it does not exist yet. This is an
+     * atomic operation.
      *
-     * If the file does not exist yet, it will be created. This is an atomic
-     * operation.
-     *
-     * @param string $path The file path.
-     * @throws StorageException Failed to open the file.
+     * @param string $path
+     * @throws StorageException When the file cannot be opened.
      */
     public function __construct($path)
     {
@@ -50,9 +31,7 @@ final class FileStorage implements Storage, GlobalScope
     }
     
     /**
-     * Opens the file and initializes the mutex.
-     *
-     * @throws StorageException Failed to open the file.
+     * @throws StorageException
      */
     private function open()
     {
@@ -63,11 +42,6 @@ final class FileStorage implements Storage, GlobalScope
         $this->mutex = new FlockMutex($this->fileHandle);
     }
     
-    /**
-     * Closes the file handle.
-     *
-     * @internal
-     */
     public function __destruct()
     {
         fclose($this->fileHandle);
@@ -84,7 +58,10 @@ final class FileStorage implements Storage, GlobalScope
         $this->open(); // remove() could have deleted the file.
         $this->setMicrotime($microtime);
     }
-    
+
+    /**
+     * @throws StorageException
+     */
     public function remove()
     {
         // Truncate to notify isBootstrapped() about the new state.
@@ -97,7 +74,8 @@ final class FileStorage implements Storage, GlobalScope
     }
 
     /**
-     * @SuppressWarnings(PHPMD)
+     * @param float $microtime
+     * @throws StorageException
      */
     public function setMicrotime($microtime)
     {
@@ -111,9 +89,10 @@ final class FileStorage implements Storage, GlobalScope
             throw new StorageException("Could not write to storage.");
         }
     }
-    
+
     /**
-     * @SuppressWarnings(PHPMD)
+     * @return float
+     * @throws StorageException
      */
     public function getMicrotime()
     {
@@ -127,7 +106,10 @@ final class FileStorage implements Storage, GlobalScope
         
         return DoublePacker::unpack($data);
     }
-    
+
+    /**
+     * @return FlockMutex
+     */
     public function getMutex()
     {
         return $this->mutex;

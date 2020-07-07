@@ -8,44 +8,25 @@ use bandwidthThrottle\tokenBucket\storage\scope\GlobalScope;
 
 /**
  * PDO based storage which can be shared over a common DBS.
- *
- * This storage is in the global scope.
- *
- * @author Markus Malkusch <markus@malkusch.de>
- * @link bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK Donations
- * @license WTFPL
  */
 final class PDOStorage implements Storage, GlobalScope
 {
-
-    /**
-     * @var PDO The pdo.
-     */
+    /** @var \PDO */
     private $pdo;
     
-    /**
-     * @var string The shared name of the token bucket.
-     */
+    /** @var string The shared name of the token bucket. */
     private $name;
     
-    /**
-     * @var TransactionalMutex The mutex.
-     */
+    /** @var TransactionalMutex The mutex. */
     private $mutex;
     
     /**
-     * Sets the PDO and the bucket's name for the shared storage.
+     * Sets the PDO and the bucket's name for the shared storage. PDO's transaction isolation level should avoid lost
+     * updates, i.e. it should be at least "repeatable read".
      *
-     * The name should be the same for all token buckets which share the same
-     * token storage.
-     *
-     * The transaction isolation level should avoid lost updates, i.e. it should
-     * be at least Repeatable Read.
-     *
-     * @param string $name The name of the token bucket.
-     * @param PDO    $pdo  The PDO.
-     *
-     * @throws \LengthException          The id should not be longer than 128 characters.
+     * @param string $name
+     * @param \PDO $pdo
+     * @throws \LengthException The ID should not be longer than 128 characters.
      * @throws \InvalidArgumentException PDO must be configured to throw exceptions.
      */
     public function __construct($name, \PDO $pdo)

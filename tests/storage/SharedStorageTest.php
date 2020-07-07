@@ -7,8 +7,6 @@ use Redis;
 use Predis\Client;
 
 /**
- * Tests for shared Storage implementations.
- *
  * If you want to run vendor specific tests you should provide these
  * environment variables:
  *
@@ -16,18 +14,10 @@ use Predis\Client;
  * - PGSQL_DSN, PGSQL_USER
  * - MEMCACHE_HOST
  * - REDIS_URI
- *
- * @author Markus Malkusch <markus@malkusch.de>
- * @link bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK Donations
- * @license WTFPL
- * @see Storage
  */
 class SharedStorageTest extends \PHPUnit_Framework_TestCase
 {
-
-    /**
-     * @var Storages Tests storages.
-     */
+    /** @var Storage[] Tests storages. */
     private $storages = [];
     
     protected function tearDown()
@@ -119,7 +109,6 @@ class SharedStorageTest extends \PHPUnit_Framework_TestCase
      * @param callable $factory The storage factory.
      *
      * @dataProvider provideStorageFactories
-     * @test
      */
     public function testStoragesDontInterfere(callable $factory)
     {

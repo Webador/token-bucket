@@ -11,35 +11,22 @@ use malkusch\lock\mutex\Mutex;
 
 /**
  * Redis based storage which uses the Predis API.
- *
- * This storage is in the global scope.
- *
- * @author Markus Malkusch <markus@malkusch.de>
- * @link bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK Donations
- * @license WTFPL
  */
 final class PredisStorage implements Storage, GlobalScope
 {
-    
-    /**
-     * @var Mutex The mutex.
-     */
+    /** @var Mutex */
     private $mutex;
     
-    /**
-     * @var Client The redis API.
-     */
+    /** @var Client The redis API. */
     private $redis;
     
-    /**
-     * @var string The key.
-     */
+    /** @var string */
     private $key;
     
     /**
      * Sets the Redis API.
      *
-     * @param string $name  The resource name.
+     * @param string $name The resource name.
      * @param Client $redis The Redis API.
      */
     public function __construct($name, Client $redis)
@@ -73,10 +60,7 @@ final class PredisStorage implements Storage, GlobalScope
             throw new StorageException("Failed to delete key", 0, $e);
         }
     }
-    
-    /**
-     * @SuppressWarnings(PHPMD)
-     */
+
     public function setMicrotime($microtime)
     {
         try {
@@ -89,9 +73,6 @@ final class PredisStorage implements Storage, GlobalScope
         }
     }
 
-    /**
-     * @SuppressWarnings(PHPMD)
-     */
     public function getMicrotime()
     {
         try {

@@ -2,51 +2,31 @@
 
 namespace bandwidthThrottle\tokenBucket\storage;
 
+use malkusch\lock\mutex\Mutex;
 use malkusch\lock\mutex\SemaphoreMutex;
 use bandwidthThrottle\tokenBucket\storage\scope\GlobalScope;
 use bandwidthThrottle\tokenBucket\util\DoublePacker;
 
 /**
- * Shared memory based storage which can be shared among processes of a single host.
- *
- * This storage is in the global scope. However the scope is limited to the
- * shared memory. I.e. the scope is not shared between hosts.
- *
- * @author Markus Malkusch <markus@malkusch.de>
- * @link bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK Donations
- * @license WTFPL
+ * Shared memory-based storage that can be shared among processes of a single host.
  */
 final class IPCStorage implements Storage, GlobalScope
 {
-    
-    /**
-     * @var Mutex The mutex.
-     */
+    /** @var Mutex */
     private $mutex;
     
-    /**
-     * @var int $key The System V IPC key.
-     */
+    /** @var int $key The System V IPC key. */
     private $key;
     
-    /**
-     * @var resource The shared memory.
-     */
+    /** @var resource The shared memory. */
     private $memory;
     
-    /**
-     * @var resource The semaphore id.
-     */
+    /** @var resource The semaphore ID. */
     private $semaphore;
     
     /**
-     * Sets the System V IPC key for the shared memory and its semaphore.
-     *
-     * You can create the key with PHP's function ftok().
-     *
      * @param int $key The System V IPC key.
-     *
-     * @throws StorageException Could initialize IPC infrastructure.
+     * @throws StorageException Thrown when IPC infrastructure initialization fails.
      */
     public function __construct($key)
     {
@@ -63,7 +43,7 @@ final class IPCStorage implements Storage, GlobalScope
     {
         try {
             $this->semaphore = sem_get($this->key);
-            $this->mutex     = new SemaphoreMutex($this->semaphore);
+            $this->mutex = new SemaphoreMutex($this->semaphore);
         } catch (\InvalidArgumentException $e) {
             throw new StorageException("Could not get semaphore id.", 0, $e);
         }
@@ -100,9 +80,6 @@ final class IPCStorage implements Storage, GlobalScope
         $this->semaphore = null;
     }
 
-    /**
-     * @SuppressWarnings(PHPMD)
-     */
     public function setMicrotime($microtime)
     {
         $data = DoublePacker::pack($microtime);
@@ -110,10 +87,7 @@ final class IPCStorage implements Storage, GlobalScope
             throw new StorageException("Could not store in shared memory.");
         }
     }
-    
-    /**
-     * @SuppressWarnings(PHPMD)
-     */
+
     public function getMicrotime()
     {
         $data = shm_get_var($this->memory, 0);

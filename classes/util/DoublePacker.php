@@ -5,21 +5,13 @@ namespace bandwidthThrottle\tokenBucket\util;
 use bandwidthThrottle\tokenBucket\storage\StorageException;
 
 /**
- * Double packer.
- *
- * @author Markus Malkusch <markus@malkusch.de>
- * @link bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK Donations
- * @license WTFPL
- * @internal
+ * Can pack and unpack 64-bit floating point values into 8-byte strings.
  */
 final class DoublePacker
 {
-    
     /**
-     * Packs a 64 bit double into an 8 byte string.
-     *
-     * @param double $double 64 bit double
-     * @return string packed 8 byte string representation
+     * @param float $double
+     * @return string
      */
     public static function pack($double)
     {
@@ -29,11 +21,9 @@ final class DoublePacker
     }
     
     /**
-     * Unpacks a 64 bit double from an 8 byte string.
-     *
-     * @param string $string packed 8 byte string representation.
-     * @return double unpacked 64 bit double
-     * @throws StorageException conversion error
+     * @param string $string
+     * @return float
+     * @throws StorageException When a conversion error occurs.
      */
     public static function unpack($string)
     {

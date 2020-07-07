@@ -8,20 +8,9 @@ use phpmock\environment\MockEnvironment;
 use bandwidthThrottle\tokenBucket\storage\SingleProcessStorage;
 use bandwidthThrottle\tokenBucket\storage\Storage;
 
-/**
- * Test for TokenBucket.
- *
- * @author Markus Malkusch <markus@malkusch.de>
- * @link bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK Donations
- * @license WTFPL
- * @see TokenBucket
- */
 class TokenBucketTest extends \PHPUnit_Framework_TestCase
 {
-    
-    /**
-     * @var MockEnvironment Mock for microtime() and usleep().
-     */
+    /** @var MockEnvironment Mock for microtime() and usleep(). */
     private $sleepEnvironent;
     
     protected function setUp()
@@ -42,8 +31,6 @@ class TokenBucketTest extends \PHPUnit_Framework_TestCase
     
     /**
      * Tests bootstrap() is bootstraps not on already bootstrapped storages.
-     *
-     * @test
      */
     public function testBootstrapOnce()
     {
@@ -66,8 +53,6 @@ class TokenBucketTest extends \PHPUnit_Framework_TestCase
     
     /**
      * Tests bootstrapping sets to 0 tokens.
-     *
-     * @test
      */
     public function testDefaultBootstrap()
     {
@@ -81,10 +66,8 @@ class TokenBucketTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests bootstrapping with tokens.
      *
-     * @param int $capacity The capacity.
-     * @param int $tokens   The initial amount of tokens.
-     *
-     * @test
+     * @param int $capacity
+     * @param int $tokens
      * @dataProvider provideTestBootstrapWithInitialTokens
      */
     public function testBootstrapWithInitialTokens($capacity, $tokens)
@@ -112,8 +95,6 @@ class TokenBucketTest extends \PHPUnit_Framework_TestCase
     
     /**
      * Tests comsumption of cumulated tokens.
-     *
-     * @test
      */
     public function testConsume()
     {
@@ -135,8 +116,6 @@ class TokenBucketTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Tests consume() returns the expected amount of seconds to wait.
-     *
-     * @test
      */
     public function testWaitCalculation()
     {
@@ -158,8 +137,6 @@ class TokenBucketTest extends \PHPUnit_Framework_TestCase
     
     /**
      * Test token rate.
-     *
-     * @test
      */
     public function testWaitingAddsTokens()
     {
@@ -178,8 +155,6 @@ class TokenBucketTest extends \PHPUnit_Framework_TestCase
     
     /**
      * Tests consuming insuficient tokens wont remove any token.
-     *
-     * @test
      */
     public function testConsumeInsufficientDontRemoveTokens()
     {
@@ -198,8 +173,6 @@ class TokenBucketTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Tests consuming tokens.
-     *
-     * @test
      */
     public function testConsumeSufficientRemoveTokens()
     {
@@ -215,7 +188,6 @@ class TokenBucketTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests bootstrapping with too many tokens.
      *
-     * @test
      * @expectedException \LengthException
      */
     public function testInitialTokensTooMany()
@@ -228,7 +200,6 @@ class TokenBucketTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests consuming more than the capacity.
      *
-     * @test
      * @expectedException \LengthException
      */
     public function testConsumeTooMany()
@@ -243,7 +214,6 @@ class TokenBucketTest extends \PHPUnit_Framework_TestCase
     /**
      * Test the capacity limit of the bucket
      *
-     * @test
      */
     public function testCapacity()
     {
@@ -259,8 +229,7 @@ class TokenBucketTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests building a token bucket with an invalid caüacity fails.
      *
-     * @test
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @dataProvider provideTestInvalidCapacity
      */
     public function testInvalidCapacity($capacity)
@@ -284,8 +253,6 @@ class TokenBucketTest extends \PHPUnit_Framework_TestCase
     
     /**
      * After bootstraping, getTokens() should return the initial amount.
-     *
-     * @test
      */
     public function getTokensShouldReturnInitialAmountOnBootstrap()
     {
@@ -299,8 +266,6 @@ class TokenBucketTest extends \PHPUnit_Framework_TestCase
     
     /**
      * After one consumtion, getTokens() should return the initial amount - 1.
-     *
-     * @test
      */
     public function getTokensShouldReturnRemainingTokensAfterConsumption()
     {
@@ -315,8 +280,6 @@ class TokenBucketTest extends \PHPUnit_Framework_TestCase
     
     /**
      * After consuming all, getTokens() should return 0.
-     *
-     * @test
      */
     public function getTokensShouldReturnZeroTokensAfterConsumingAll()
     {
@@ -331,8 +294,6 @@ class TokenBucketTest extends \PHPUnit_Framework_TestCase
     
     /**
      * After consuming too many, getTokens() should return the same as before.
-     *
-     * @test
      */
     public function getTokensShouldReturnSameAfterConsumingTooMany()
     {
@@ -352,8 +313,6 @@ class TokenBucketTest extends \PHPUnit_Framework_TestCase
     
     /**
      * After waiting on an non full bucket, getTokens() should return more.
-     *
-     * @test
      */
     public function getTokensShouldReturnMoreAfterWaiting()
     {
@@ -369,8 +328,6 @@ class TokenBucketTest extends \PHPUnit_Framework_TestCase
     /**
      * After waiting the complete refill period on an empty bucket, getTokens()
      * should return the capacity of the bucket.
-     *
-     * @test
      */
     public function getTokensShouldReturnCapacityAfterWaitingRefillPeriod()
     {
@@ -386,8 +343,6 @@ class TokenBucketTest extends \PHPUnit_Framework_TestCase
     /**
      * After waiting longer than the complete refill period on an empty bucket,
      * getTokens() should return the capacity of the bucket.
-     *
-     * @test
      */
     public function getTokensShouldReturnCapacityAfterWaitingLongerThanRefillPeriod()
     {

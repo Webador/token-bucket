@@ -5,31 +5,16 @@ namespace bandwidthThrottle\tokenBucket\util;
 use bandwidthThrottle\tokenBucket\Rate;
 
 /**
- * Tokens converter.
- *
- * @author Markus Malkusch <markus@malkusch.de>
- * @link bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK Donations
- * @license WTFPL
- * @internal
+ * Can convert tokens to seconds and vice versa given the token's rate.
  */
 final class TokenConverter
 {
-    
-    /**
-     * @var Rate The rate.
-     */
+    /** @var Rate */
     private $rate;
     
-    /**
-     * @var int precision scale for bc_* operations.
-     */
+    /** @var int precision scale for bc_* operations. */
     private $bcScale = 8;
-    
-    /**
-     * Sets the token rate.
-     *
-     * @param int $rate The rate.
-     */
+
     public function __construct(Rate $rate)
     {
         $this->rate = $rate;
@@ -38,8 +23,8 @@ final class TokenConverter
     /**
      * Converts a duration of seconds into an amount of tokens.
      *
-     * @param double $seconds The duration in seconds.
-     * @return int The amount of tokens.
+     * @param float $seconds
+     * @return int
      */
     public function convertSecondsToTokens($seconds)
     {
@@ -49,8 +34,8 @@ final class TokenConverter
     /**
      * Converts an amount of tokens into a duration of seconds.
      *
-     * @param int $tokens The amount of tokens.
-     * @return double The seconds.
+     * @param int $tokens
+     * @return float
      */
     public function convertTokensToSeconds($tokens)
     {
@@ -60,8 +45,8 @@ final class TokenConverter
     /**
      * Converts an amount of tokens into a timestamp.
      *
-     * @param int $tokens The amount of tokens.
-     * @return double The timestamp.
+     * @param int $tokens
+     * @return float
      */
     public function convertTokensToMicrotime($tokens)
     {
@@ -71,9 +56,8 @@ final class TokenConverter
     /**
      * Converts a timestamp into tokens.
      *
-     * @param double $microtime The timestamp.
-     *
-     * @return int The tokens.
+     * @param float $microtime
+     * @return int
      */
     public function convertMicrotimeToTokens($microtime)
     {

@@ -4,50 +4,31 @@ namespace bandwidthThrottle\tokenBucket\storage;
 
 use bandwidthThrottle\tokenBucket\storage\scope\GlobalScope;
 use bandwidthThrottle\tokenBucket\util\DoublePacker;
-use Redis;
-use RedisException;
 use malkusch\lock\mutex\PHPRedisMutex;
 use malkusch\lock\mutex\Mutex;
 
 /**
  * Redis based storage which uses the phpredis extension.
- *
- * This storage is in the global scope.
- *
- * This implementation requires at least phpredis-2.2.4.
- *
- * @author Markus Malkusch <markus@malkusch.de>
- * @link bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK Donations
- * @license WTFPL
  */
 final class PHPRedisStorage implements Storage, GlobalScope
 {
-    
-    /**
-     * @var Mutex The mutex.
-     */
+    /** @var Mutex */
     private $mutex;
     
-    /**
-     * @var Redis The redis API.
-     */
+    /** @var \Redis The redis API. */
     private $redis;
     
-    /**
-     * @var string The key.
-     */
+    /** @var string */
     private $key;
     
     /**
-     * Sets the connected Redis API.
+     * Sets the Redis API and shared bucket name. The Redis API needs to be connected. I.e., Redis::connect() was called
+     * already.
      *
-     * The Redis API needs to be connected yet. I.e. Redis::connect() was
-     * called already.
-     *
-     * @param string $name  The resource name.
-     * @param Redis  $redis The Redis API.
+     * @param string $name
+     * @param \Redis $redis
      */
-    public function __construct($name, Redis $redis)
+    public function __construct($name, \Redis $redis)
     {
         $this->key   = $name;
         $this->redis = $redis;
@@ -63,7 +44,7 @@ final class PHPRedisStorage implements Storage, GlobalScope
     {
         try {
             return $this->redis->exists($this->key);
-        } catch (RedisException $e) {
+        } catch (\RedisException $e) {
             throw new StorageException("Failed to check for key existence", 0, $e);
         }
     }
@@ -74,14 +55,11 @@ final class PHPRedisStorage implements Storage, GlobalScope
             if (!$this->redis->del($this->key)) {
                 throw new StorageException("Failed to delete key");
             }
-        } catch (RedisException $e) {
+        } catch (\RedisException $e) {
             throw new StorageException("Failed to delete key", 0, $e);
         }
     }
-    
-    /**
-     * @SuppressWarnings(PHPMD)
-     */
+
     public function setMicrotime($microtime)
     {
         try {
@@ -90,14 +68,11 @@ final class PHPRedisStorage implements Storage, GlobalScope
             if (!$this->redis->set($this->key, $data)) {
                 throw new StorageException("Failed to store microtime");
             }
-        } catch (RedisException $e) {
+        } catch (\RedisException $e) {
             throw new StorageException("Failed to store microtime", 0, $e);
         }
     }
 
-    /**
-     * @SuppressWarnings(PHPMD)
-     */
     public function getMicrotime()
     {
         try {
@@ -106,7 +81,7 @@ final class PHPRedisStorage implements Storage, GlobalScope
                 throw new StorageException("Failed to get microtime");
             }
             return DoublePacker::unpack($data);
-        } catch (RedisException $e) {
+        } catch (\RedisException $e) {
             throw new StorageException("Failed to get microtime", 0, $e);
         }
     }

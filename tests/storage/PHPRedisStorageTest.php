@@ -5,26 +5,14 @@ namespace bandwidthThrottle\tokenBucket\storage;
 use Redis;
 
 /**
- * Tests for PHPRedisStorage.
- *
  * These tests need the environment variable REDIS_URI.
- *
- * @author Markus Malkusch <markus@malkusch.de>
- * @link bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK Donations
- * @license WTFPL
- * @see PHPRedisStorage
  */
 class PHPRedisStorageTest extends \PHPUnit_Framework_TestCase
 {
-
-    /**
-     * @var Redis The API.
-     */
+    /** @var Redis The API. */
     private $redis;
 
-    /**
-     * @var PHPRedisStorage The SUT.
-     */
+    /** @var PHPRedisStorage The SUT. */
     private $storage;
     
     protected function setUp()
@@ -45,8 +33,7 @@ class PHPRedisStorageTest extends \PHPUnit_Framework_TestCase
      * Tests broken server communication.
      *
      * @param callable $method The tested method.
-     * @test
-     * @expectedException bandwidthThrottle\tokenBucket\storage\StorageException
+     * @expectedException StorageException
      * @dataProvider provideTestBrokenCommunication
      */
     public function testBrokenCommunication(callable $method)
@@ -84,8 +71,7 @@ class PHPRedisStorageTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests remove() fails.
      *
-     * @test
-     * @expectedException bandwidthThrottle\tokenBucket\storage\StorageException
+     * @expectedException StorageException
      */
     public function testRemoveFails()
     {
@@ -98,8 +84,7 @@ class PHPRedisStorageTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests setMicrotime() fails.
      *
-     * @test
-     * @expectedException bandwidthThrottle\tokenBucket\storage\StorageException
+     * @expectedException StorageException
      */
     public function testSetMicrotimeFails()
     {
@@ -113,8 +98,7 @@ class PHPRedisStorageTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests getMicrotime() fails.
      *
-     * @test
-     * @expectedException bandwidthThrottle\tokenBucket\storage\StorageException
+     * @expectedException StorageException
      */
     public function testGetMicrotimeFails()
     {
