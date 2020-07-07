@@ -19,9 +19,9 @@ composer require jouwweb/token-bucket
 This example will limit the rate of a global resource to 10 requests per second for all requests.
 
 ```php
-use bandwidthThrottle\tokenBucket\Rate;
-use bandwidthThrottle\tokenBucket\TokenBucket;
-use bandwidthThrottle\tokenBucket\storage\FileStorage;
+use JouwWeb\TokenBucket\Rate;
+use JouwWeb\TokenBucket\TokenBucket;
+use JouwWeb\TokenBucket\storage\FileStorage;
 
 $storage = new FileStorage(__DIR__ . "/api.bucket");
 $rate = new Rate(10, Rate::SECOND);
@@ -47,7 +47,9 @@ This is a very resource efficient way of throttling requests, but sometimes it i
 You can achieve this by consuming the token bucket with an instance of `BlockingConsumer`:
 
 ```php
-...
+use JouwWeb\TokenBucket\BlockingConsumer;
+/** @var \JouwWeb\TokenBucket\TokenBucket $bucket */
+
 $consumer = new BlockingConsumer($bucket);
 
 // This will block until one token is available.

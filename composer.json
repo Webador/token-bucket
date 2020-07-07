@@ -16,7 +16,14 @@
         }
     ],
     "autoload": {
-        "psr-4": {"bandwidthThrottle\\tokenBucket\\": "classes/"}
+        "psr-4": {
+            "JouwWeb\\TokenBucket\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "JouwWeb\\TokenBucket\\Test\\": "test/"
+        }
     },
     "require": {
         "php": ">=5.6",
