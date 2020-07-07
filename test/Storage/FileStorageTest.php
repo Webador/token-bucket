@@ -3,10 +3,9 @@
 namespace JouwWeb\TokenBucket\Test\Storage;
 
 use JouwWeb\TokenBucket\Storage\FileStorage;
-use JouwWeb\TokenBucket\Storage\StorageException;
-use phpmock\phpunit\PHPMock;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamFile;
+use phpmock\phpunit\PHPMock;
 
 class FileStorageTest extends \PHPUnit_Framework_TestCase
 {
@@ -16,7 +15,7 @@ class FileStorageTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests opening the file fails.
      *
-     * @expectedException StorageException
+     * @expectedException \JouwWeb\TokenBucket\Storage\StorageException
      */
     public function testOpeningFails()
     {
@@ -27,7 +26,7 @@ class FileStorageTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests seeking fails in setMicrotime().
      *
-     * @expectedException StorageException
+     * @expectedException \JouwWeb\TokenBucket\Storage\StorageException
      */
     public function testSetMicrotimeFailsSeeking()
     {
@@ -43,7 +42,7 @@ class FileStorageTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests writings fails in setMicrotime().
      *
-     * @expectedException StorageException
+     * @expectedException \JouwWeb\TokenBucket\Storage\StorageException
      */
     public function testSetMicrotimeFailsWriting()
     {
@@ -59,7 +58,7 @@ class FileStorageTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests seeking fails in getMicrotime().
      *
-     * @expectedException StorageException
+     * @expectedException \JouwWeb\TokenBucket\Storage\StorageException
      */
     public function testGetMicrotimeFailsSeeking()
     {
@@ -75,7 +74,7 @@ class FileStorageTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests reading fails in getMicrotime().
      *
-     * @expectedException StorageException
+     * @expectedException \JouwWeb\TokenBucket\Storage\StorageException
      */
     public function testGetMicrotimeFailsReading()
     {
@@ -91,7 +90,7 @@ class FileStorageTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests readinging too little in getMicrotime().
      *
-     * @expectedException StorageException
+     * @expectedException \JouwWeb\TokenBucket\Storage\StorageException
      */
     public function testGetMicrotimeReadsToLittle()
     {
@@ -106,7 +105,7 @@ class FileStorageTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests deleting fails.
      *
-     * @expectedException StorageException
+     * @expectedException \JouwWeb\TokenBucket\Storage\StorageException
      */
     public function testRemoveFails()
     {

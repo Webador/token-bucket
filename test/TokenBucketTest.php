@@ -3,12 +3,12 @@
 namespace JouwWeb\TokenBucket\Test;
 
 use JouwWeb\TokenBucket\Rate;
-use JouwWeb\TokenBucket\TokenBucket;
-use malkusch\lock\mutex\NoMutex;
-use phpmock\environment\SleepEnvironmentBuilder;
-use phpmock\environment\MockEnvironment;
 use JouwWeb\TokenBucket\Storage\SingleProcessStorage;
 use JouwWeb\TokenBucket\Storage\Storage;
+use JouwWeb\TokenBucket\TokenBucket;
+use malkusch\lock\mutex\NoMutex;
+use phpmock\environment\MockEnvironment;
+use phpmock\environment\SleepEnvironmentBuilder;
 
 class TokenBucketTest extends \PHPUnit_Framework_TestCase
 {

@@ -4,7 +4,6 @@ namespace JouwWeb\TokenBucket\Test\Storage;
 
 use JouwWeb\TokenBucket\Storage\PDOStorage;
 use JouwWeb\TokenBucket\Storage\Storage;
-use JouwWeb\TokenBucket\Storage\StorageException;
 
 /**
  * If you want to run vendor specific PDO tests you should provide these
@@ -132,7 +131,7 @@ class PDOStorageTest extends \PHPUnit_Framework_TestCase
      *
      * @param \PDO $pdo The PDO.
      * @dataProvider providePDO
-     * @expectedException StorageException
+     * @expectedException \JouwWeb\TokenBucket\Storage\StorageException
      */
     public function testBootstrapFailsForExistingRow(\PDO $pdo)
     {

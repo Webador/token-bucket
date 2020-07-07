@@ -2,9 +2,8 @@
 
 namespace JouwWeb\TokenBucket\Storage;
 
-use JouwWeb\TokenBucket\storage\Storage;
-use malkusch\lock\mutex\TransactionalMutex;
 use JouwWeb\TokenBucket\Storage\Scope\GlobalScope;
+use malkusch\lock\mutex\TransactionalMutex;
 
 /**
  * PDO based storage which can be shared over a common DBS.

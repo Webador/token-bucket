@@ -3,7 +3,6 @@
 namespace JouwWeb\TokenBucket\Test\Storage;
 
 use JouwWeb\TokenBucket\Storage\PredisStorage;
-use JouwWeb\TokenBucket\Storage\StorageException;
 use Predis\Client;
 use Predis\ClientException;
 
@@ -30,7 +29,7 @@ class PredisStorageTest extends \PHPUnit_Framework_TestCase
      * Tests broken server communication.
      *
      * @param callable $method The tested method.
-     * @expectedException StorageException
+     * @expectedException \JouwWeb\TokenBucket\Storage\StorageException
      * @dataProvider provideTestBrokenCommunication
      */
     public function testBrokenCommunication(callable $method)
@@ -71,7 +70,7 @@ class PredisStorageTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests remove() fails.
      *
-     * @expectedException StorageException
+     * @expectedException \JouwWeb\TokenBucket\Storage\StorageException
      */
     public function testRemoveFails()
     {
@@ -84,7 +83,7 @@ class PredisStorageTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests setMicrotime() fails.
      *
-     * @expectedException StorageException
+     * @expectedException \JouwWeb\TokenBucket\Storage\StorageException
      */
     public function testSetMicrotimeFails()
     {
@@ -99,7 +98,7 @@ class PredisStorageTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests getMicrotime() fails.
      *
-     * @expectedException StorageException
+     * @expectedException \JouwWeb\TokenBucket\Storage\StorageException
      */
     public function testGetMicrotimeFails()
     {

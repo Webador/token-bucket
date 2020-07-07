@@ -2,6 +2,7 @@
 
 namespace JouwWeb\TokenBucket\Test\Storage;
 
+use JouwWeb\TokenBucket\Rate;
 use JouwWeb\TokenBucket\Storage\FileStorage;
 use JouwWeb\TokenBucket\Storage\IPCStorage;
 use JouwWeb\TokenBucket\Storage\MemcachedStorage;
@@ -11,11 +12,10 @@ use JouwWeb\TokenBucket\Storage\PredisStorage;
 use JouwWeb\TokenBucket\Storage\SessionStorage;
 use JouwWeb\TokenBucket\Storage\SingleProcessStorage;
 use JouwWeb\TokenBucket\Storage\Storage;
-use org\bovigo\vfs\vfsStream;
-use Redis;
-use Predis\Client;
 use JouwWeb\TokenBucket\TokenBucket;
-use JouwWeb\TokenBucket\Rate;
+use org\bovigo\vfs\vfsStream;
+use Predis\Client;
+use Redis;
 
 /**
  * If you want to run vendor specific tests you should provide these

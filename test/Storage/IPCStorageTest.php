@@ -3,7 +3,6 @@
 namespace JouwWeb\TokenBucket\Test\Storage;
 
 use JouwWeb\TokenBucket\Storage\IPCStorage;
-use JouwWeb\TokenBucket\Storage\StorageException;
 
 class IPCStorageTest extends \PHPUnit_Framework_TestCase
 {
@@ -11,7 +10,7 @@ class IPCStorageTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests building fails for an invalid key.
      *
-     * @expectedException StorageException
+     * @expectedException \JouwWeb\TokenBucket\Storage\StorageException
      */
     public function testBuildFailsForInvalidKey()
     {
@@ -21,7 +20,7 @@ class IPCStorageTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests remove() fails.
      *
-     * @expectedException StorageException
+     * @expectedException \JouwWeb\TokenBucket\Storage\StorageException
      * @expectedExceptionMessage Could not release shared memory.
      */
     public function testRemoveFails()
@@ -34,7 +33,7 @@ class IPCStorageTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests removing semaphore fails.
      *
-     * @expectedException StorageException
+     * @expectedException \JouwWeb\TokenBucket\Storage\StorageException
      * @expectedExceptionMessage Could not remove semaphore.
      */
     public function testfailRemovingSemaphore()
@@ -49,7 +48,7 @@ class IPCStorageTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests setMicrotime() fails.
      *
-     * @expectedException StorageException
+     * @expectedException \JouwWeb\TokenBucket\Storage\StorageException
      */
     public function testSetMicrotimeFails()
     {
@@ -61,7 +60,7 @@ class IPCStorageTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests getMicrotime() fails.
      *
-     * @expectedException StorageException
+     * @expectedException \JouwWeb\TokenBucket\Storage\StorageException
      */
     public function testGetMicrotimeFails()
     {

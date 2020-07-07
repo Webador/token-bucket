@@ -3,7 +3,6 @@
 namespace JouwWeb\TokenBucket\Test\Storage;
 
 use JouwWeb\TokenBucket\Storage\MemcachedStorage;
-use JouwWeb\TokenBucket\Storage\StorageException;
 
 class MemcachedStorageTest extends \PHPUnit_Framework_TestCase
 {
@@ -51,7 +50,7 @@ class MemcachedStorageTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests bootstrap() fails.
      *
-     * @expectedException StorageException
+     * @expectedException \JouwWeb\TokenBucket\Storage\StorageException
      */
     public function testBootstrapFails()
     {
@@ -62,7 +61,7 @@ class MemcachedStorageTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests isBootstrapped() fails
      *
-     * @expectedException StorageException
+     * @expectedException \JouwWeb\TokenBucket\Storage\StorageException
      */
     public function testIsBootstrappedFails()
     {
@@ -72,7 +71,7 @@ class MemcachedStorageTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests remove() fails
      *
-     * @expectedException StorageException
+     * @expectedException \JouwWeb\TokenBucket\Storage\StorageException
      */
     public function testRemoveFails()
     {
@@ -83,7 +82,7 @@ class MemcachedStorageTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests setMicrotime() fails if getMicrotime() wasn't called first.
      *
-     * @expectedException StorageException
+     * @expectedException \JouwWeb\TokenBucket\Storage\StorageException
      */
     public function testSetMicrotimeFailsIfGetMicrotimeNotCalledFirst()
     {
@@ -93,7 +92,7 @@ class MemcachedStorageTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests setMicrotime() fails.
      *
-     * @expectedException StorageException
+     * @expectedException \JouwWeb\TokenBucket\Storage\StorageException
      */
     public function testSetMicrotimeFails()
     {
@@ -122,7 +121,7 @@ class MemcachedStorageTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests getMicrotime() fails.
      *
-     * @expectedException StorageException
+     * @expectedException \JouwWeb\TokenBucket\Storage\StorageException
      */
     public function testGetMicrotimeFails()
     {

@@ -12,8 +12,8 @@ use JouwWeb\TokenBucket\Storage\SessionStorage;
 use JouwWeb\TokenBucket\Storage\Storage;
 use JouwWeb\TokenBucket\Storage\StorageException;
 use org\bovigo\vfs\vfsStream;
-use Redis;
 use Predis\Client;
+use Redis;
 
 /**
  * If you want to run vendor specific tests you should provide these

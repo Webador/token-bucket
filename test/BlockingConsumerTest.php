@@ -4,10 +4,10 @@ namespace JouwWeb\TokenBucket\Test;
 
 use JouwWeb\TokenBucket\BlockingConsumer;
 use JouwWeb\TokenBucket\Rate;
-use JouwWeb\TokenBucket\TokenBucket;
-use phpmock\environment\SleepEnvironmentBuilder;
-use phpmock\environment\MockEnvironment;
 use JouwWeb\TokenBucket\Storage\SingleProcessStorage;
+use JouwWeb\TokenBucket\TokenBucket;
+use phpmock\environment\MockEnvironment;
+use phpmock\environment\SleepEnvironmentBuilder;
 
 class BlockingConsumerTest extends \PHPUnit_Framework_TestCase
 {
@@ -35,8 +35,8 @@ class BlockingConsumerTest extends \PHPUnit_Framework_TestCase
      */
     public function testConsecutiveConsume()
     {
-        $rate     = new Rate(1, Rate::SECOND);
-        $bucket   = new TokenBucket(10, $rate, new SingleProcessStorage());
+        $rate = new Rate(1, Rate::SECOND);
+        $bucket = new TokenBucket(10, $rate, new SingleProcessStorage());
         $consumer = new BlockingConsumer($bucket);
         $bucket->bootstrap(10);
         $time = microtime(true);
@@ -45,15 +45,15 @@ class BlockingConsumerTest extends \PHPUnit_Framework_TestCase
         $consumer->consume(2);
         $consumer->consume(3);
         $consumer->consume(4);
-        $this->assertEquals(microtime(true) - $time, 0);
+        $this->assertEquals(0.0, microtime(true) - $time);
         
         $consumer->consume(1);
-        $this->assertEquals(microtime(true) - $time, 1);
+        $this->assertEquals(1.0, microtime(true) - $time);
         
         sleep(3);
         $time = microtime(true);
         $consumer->consume(4);
-        $this->assertEquals(microtime(true) - $time, 1);
+        $this->assertEquals(1.0, microtime(true) - $time);
     }
     
     /**

@@ -2,7 +2,6 @@
 
 namespace JouwWeb\TokenBucket\Test\Util;
 
-use JouwWeb\TokenBucket\Storage\StorageException;
 use JouwWeb\TokenBucket\Util\DoublePacker;
 
 class DoublePackerTest extends \PHPUnit_Framework_TestCase
@@ -35,7 +34,7 @@ class DoublePackerTest extends \PHPUnit_Framework_TestCase
     /**
      * @param string $input The input string.
      * @dataProvider provideTestUnpackFails
-     * @expectedException StorageException
+     * @expectedException \JouwWeb\TokenBucket\Storage\StorageException
      */
     public function testUnpackFails($input)
     {

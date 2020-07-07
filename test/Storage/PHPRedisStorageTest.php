@@ -3,7 +3,6 @@
 namespace JouwWeb\TokenBucket\Test\Storage;
 
 use JouwWeb\TokenBucket\Storage\PHPRedisStorage;
-use JouwWeb\TokenBucket\Storage\StorageException;
 
 /**
  * These tests need the environment variable REDIS_URI.
@@ -34,7 +33,7 @@ class PHPRedisStorageTest extends \PHPUnit_Framework_TestCase
      * Tests broken server communication.
      *
      * @param callable $method The tested method.
-     * @expectedException StorageException
+     * @expectedException \JouwWeb\TokenBucket\Storage\StorageException
      * @dataProvider provideTestBrokenCommunication
      */
     public function testBrokenCommunication(callable $method)
@@ -72,7 +71,7 @@ class PHPRedisStorageTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests remove() fails.
      *
-     * @expectedException StorageException
+     * @expectedException \JouwWeb\TokenBucket\Storage\StorageException
      */
     public function testRemoveFails()
     {
@@ -85,7 +84,7 @@ class PHPRedisStorageTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests setMicrotime() fails.
      *
-     * @expectedException StorageException
+     * @expectedException \JouwWeb\TokenBucket\Storage\StorageException
      */
     public function testSetMicrotimeFails()
     {
@@ -99,7 +98,7 @@ class PHPRedisStorageTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests getMicrotime() fails.
      *
-     * @expectedException StorageException
+     * @expectedException \JouwWeb\TokenBucket\Storage\StorageException
      */
     public function testGetMicrotimeFails()
     {
