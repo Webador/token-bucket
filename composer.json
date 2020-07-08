@@ -31,12 +31,11 @@
         "ext-bcmath":"*"
     },
     "require-dev": {
-        "ext-redis": "^2.2.4|^3",
         "predis/predis": "^1",
         "phpunit/phpunit": "^5",
         "mikey179/vfsstream": "^1.5.0",
-        "php-mock/php-mock-phpunit": "^1",
-        "zendframework/zend-cache": "^2.8"
+        "zendframework/zend-cache": "^2.8",
+        "symfony/var-dumper": "*"
     },
     "config": {
         "platform": {

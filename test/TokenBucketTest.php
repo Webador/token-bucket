@@ -7,30 +7,9 @@ use JouwWeb\TokenBucket\Storage\SingleProcessStorage;
 use JouwWeb\TokenBucket\Storage\Storage;
 use JouwWeb\TokenBucket\TokenBucket;
 use malkusch\lock\mutex\NoMutex;
-use phpmock\environment\MockEnvironment;
-use phpmock\environment\SleepEnvironmentBuilder;
 
 class TokenBucketTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var MockEnvironment Mock for microtime() and usleep(). */
-    private $sleepEnvironent;
-    
-    protected function setUp()
-    {
-        $builder = new SleepEnvironmentBuilder();
-        $builder->addNamespace(__NAMESPACE__)
-                ->addNamespace("bandwidthThrottle\\tokenBucket\\util")
-                ->setTimestamp(1417011228);
-
-        $this->sleepEnvironent = $builder->build();
-        $this->sleepEnvironent->enable();
-    }
-    
-    protected function tearDown()
-    {
-        $this->sleepEnvironent->disable();
-    }
-    
     /**
      * Tests bootstrap() is bootstraps not on already bootstrapped storages.
      */
@@ -74,7 +53,7 @@ class TokenBucketTest extends \PHPUnit_Framework_TestCase
      */
     public function testBootstrapWithInitialTokens($capacity, $tokens)
     {
-        $rate        = new Rate(1, Rate::SECOND);
+        $rate = new Rate(1, Rate::SECOND);
         $tokenBucket = new TokenBucket($capacity, $rate, new SingleProcessStorage());
         $tokenBucket->bootstrap($tokens);
 
@@ -256,7 +235,7 @@ class TokenBucketTest extends \PHPUnit_Framework_TestCase
     /**
      * After bootstraping, getTokens() should return the initial amount.
      */
-    public function getTokensShouldReturnInitialAmountOnBootstrap()
+    public function testGetTokensShouldReturnInitialAmountOnBootstrap()
     {
         $rate = new Rate(1, Rate::SECOND);
         $bucket = new TokenBucket(10, $rate, new SingleProcessStorage());
@@ -269,7 +248,7 @@ class TokenBucketTest extends \PHPUnit_Framework_TestCase
     /**
      * After one consumtion, getTokens() should return the initial amount - 1.
      */
-    public function getTokensShouldReturnRemainingTokensAfterConsumption()
+    public function testGetTokensShouldReturnRemainingTokensAfterConsumption()
     {
         $rate = new Rate(1, Rate::SECOND);
         $bucket = new TokenBucket(10, $rate, new SingleProcessStorage());
@@ -283,7 +262,7 @@ class TokenBucketTest extends \PHPUnit_Framework_TestCase
     /**
      * After consuming all, getTokens() should return 0.
      */
-    public function getTokensShouldReturnZeroTokensAfterConsumingAll()
+    public function testGetTokensShouldReturnZeroTokensAfterConsumingAll()
     {
         $rate = new Rate(1, Rate::SECOND);
         $bucket = new TokenBucket(10, $rate, new SingleProcessStorage());
@@ -297,7 +276,7 @@ class TokenBucketTest extends \PHPUnit_Framework_TestCase
     /**
      * After consuming too many, getTokens() should return the same as before.
      */
-    public function getTokensShouldReturnSameAfterConsumingTooMany()
+    public function testGetTokensShouldReturnSameAfterConsumingTooMany()
     {
         $rate = new Rate(1, Rate::SECOND);
         $bucket = new TokenBucket(10, $rate, new SingleProcessStorage());
@@ -316,7 +295,7 @@ class TokenBucketTest extends \PHPUnit_Framework_TestCase
     /**
      * After waiting on an non full bucket, getTokens() should return more.
      */
-    public function getTokensShouldReturnMoreAfterWaiting()
+    public function testGetTokensShouldReturnMoreAfterWaiting()
     {
         $rate = new Rate(1, Rate::SECOND);
         $bucket = new TokenBucket(10, $rate, new SingleProcessStorage());
@@ -331,7 +310,7 @@ class TokenBucketTest extends \PHPUnit_Framework_TestCase
      * After waiting the complete refill period on an empty bucket, getTokens()
      * should return the capacity of the bucket.
      */
-    public function getTokensShouldReturnCapacityAfterWaitingRefillPeriod()
+    public function testGetTokensShouldReturnCapacityAfterWaitingRefillPeriod()
     {
         $rate = new Rate(1, Rate::SECOND);
         $bucket = new TokenBucket(10, $rate, new SingleProcessStorage());
@@ -346,7 +325,7 @@ class TokenBucketTest extends \PHPUnit_Framework_TestCase
      * After waiting longer than the complete refill period on an empty bucket,
      * getTokens() should return the capacity of the bucket.
      */
-    public function getTokensShouldReturnCapacityAfterWaitingLongerThanRefillPeriod()
+    public function testGetTokensShouldReturnCapacityAfterWaitingLongerThanRefillPeriod()
     {
         $rate = new Rate(1, Rate::SECOND);
         $bucket = new TokenBucket(10, $rate, new SingleProcessStorage());

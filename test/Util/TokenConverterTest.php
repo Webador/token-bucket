@@ -4,13 +4,9 @@ namespace JouwWeb\TokenBucket\Test\Util;
 
 use JouwWeb\TokenBucket\Rate;
 use JouwWeb\TokenBucket\Util\TokenConverter;
-use phpmock\phpunit\PHPMock;
 
 class TokenConverterTest extends \PHPUnit_Framework_TestCase
 {
-
-    use PHPMock;
-    
     /**
      * Tests convertSecondsToTokens().
      *
@@ -85,12 +81,9 @@ class TokenConverterTest extends \PHPUnit_Framework_TestCase
      */
     public function testConvertTokensToMicrotime($delta, $tokens, Rate $rate)
     {
-        $microtime = $this->getFunctionMock(__NAMESPACE__, "microtime");
-        $microtime->expects($this->any())->willReturn(100000);
-
         $converter = new TokenConverter($rate);
 
-        $this->assertEquals(microtime(true) + $delta, $converter->convertTokensToMicrotime($tokens));
+        $this->assertEquals(microtime(true) + $delta, $converter->convertTokensToMicrotime($tokens), '', 0.001);
     }
     
     /**
