@@ -1,0 +1,23 @@
+version: 2.1
+jobs:
+  build:
+    docker:
+      - image: circleci/php:7.2.5
+    steps:
+      - checkout
+      - restore_cache:
+          name: Restore dependencies
+          keys:
+            - deps-v1-{{ checksum "composer.json" }}
+            - deps-v1-
+      - run:
+          name: Install
+          command: composer install
+      - run:
+          name: Test
+          command: vendor/bin/phpunit
+      - save_cache:
+          name: Save dependencies
+          key: deps-v1-{{ checksum "composer.json" }}
+          paths:
+            - vendor
