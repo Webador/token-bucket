@@ -1,6 +1,6 @@
 # Token Bucket
 
-This is a fork of [bandwidth-throttle/token-bucket](https://github.com/bandwidth-throttle/token-bucket) originally created to add support for zend-cache.
+This is a fork of [bandwidth-throttle/token-bucket](https://github.com/bandwidth-throttle/token-bucket) originally created to add support for zend-cache (now laminas-cache).
 
 This is a threadsafe implementation of the [Token Bucket algorithm](https://en.wikipedia.org/wiki/Token_bucket) in PHP.
 You can use a token bucket to limit an usage rate for a resource. (E.g., a stream bandwidth or an API usage.)
