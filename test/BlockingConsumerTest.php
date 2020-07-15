@@ -6,9 +6,28 @@ use JouwWeb\TokenBucket\BlockingConsumer;
 use JouwWeb\TokenBucket\Rate;
 use JouwWeb\TokenBucket\Storage\SingleProcessStorage;
 use JouwWeb\TokenBucket\TokenBucket;
+use JouwWeb\TokenBucket\Util\TokenConverter;
+use PHPUnit\Framework\TestCase;
+use Symfony\Bridge\PhpUnit\ClockMock;
 
-class BlockingConsumerTest extends \PHPUnit_Framework_TestCase
+class BlockingConsumerTest extends TestCase
 {
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        ClockMock::register(__CLASS__);
+        ClockMock::register(BlockingConsumer::class);
+        ClockMock::register(TokenConverter::class);
+        ClockMock::register(TokenBucket::class);
+        ClockMock::withClockMock(true);
+    }
+
+    public function tearDown(): void
+    {
+        ClockMock::withClockMock(false);
+    }
+
     /**
      * Tests comsumption of cumulated tokens.
      */
@@ -24,33 +43,31 @@ class BlockingConsumerTest extends \PHPUnit_Framework_TestCase
         $consumer->consume(2);
         $consumer->consume(3);
         $consumer->consume(4);
-        $this->assertEquals(0, microtime(true) - $time, '', 0.01);
+
+        $this->assertEquals(0, bcsub(microtime(true), $time, 3));
         
         $consumer->consume(1);
-        $this->assertEquals(0.1, microtime(true) - $time, '', 0.01);
+        $this->assertEquals(0.1, bcsub(microtime(true), $time, 3));
         
         usleep(300000); // 0.3s = 3 tokens
         $consumer->consume(4);
-        $this->assertEquals(0.5, microtime(true) - $time, '', 0.01);
+        $this->assertEquals(0.5, bcsub(microtime(true), $time, 3));
     }
     
     /**
      * Tests consume().
      *
-     * @param float $expected
-     * @param int $tokens
-     * @param Rate $rate
      * @dataProvider provideTestConsume
      */
-    public function testConsume(Rate $rate, $tokens, $expected)
+    public function testConsume(Rate $rate, int $tokens, float $expected)
     {
-        $bucket   = new TokenBucket(1000, $rate, new SingleProcessStorage());
+        $bucket = new TokenBucket(1000, $rate, new SingleProcessStorage());
         $consumer = new BlockingConsumer($bucket);
         $bucket->bootstrap();
         
         $time = microtime(true);
         $consumer->consume($tokens);
-        $this->assertEquals($expected, microtime(true) - $time, '', 0.01);
+        $this->assertEquals($expected, bcsub(microtime(true), $time, 3));
     }
     
     /**
@@ -63,7 +80,7 @@ class BlockingConsumerTest extends \PHPUnit_Framework_TestCase
         return [
             [new Rate(1, Rate::MILLISECOND), 50,  0.05],
             [new Rate(1, Rate::MILLISECOND), 60,  0.06],
-            [new Rate(1, Rate::MILLISECOND), 80,  0.075],
+            [new Rate(1, Rate::MILLISECOND), 75,  0.075],
             [new Rate(1, Rate::MILLISECOND), 100,  0.1],
         ];
     }
@@ -73,8 +90,6 @@ class BlockingConsumerTest extends \PHPUnit_Framework_TestCase
      */
     public function testMinimumSleep()
     {
-        $this->markTestSkipped("usleep()'s inaccuracy can be greater than the unit under test.");
-
         $rate = new Rate(10, Rate::MILLISECOND);
         $bucket = new TokenBucket(1, $rate, new SingleProcessStorage());
         $bucket->bootstrap();
@@ -83,7 +98,7 @@ class BlockingConsumerTest extends \PHPUnit_Framework_TestCase
         $time = microtime(true);
         
         $consumer->consume(1);
-        $this->assertEquals(0.001, microtime(true) - $time, 0.0005);
+        $this->assertEquals(0.001, bcsub(microtime(true), $time, 3));
     }
     
     /**
@@ -93,12 +108,12 @@ class BlockingConsumerTest extends \PHPUnit_Framework_TestCase
      */
     public function testConsumeShouldFailAfterTimeout()
     {
-        $rate = new Rate(10, Rate::SECOND);
-        $bucket = new TokenBucket(100, $rate, new SingleProcessStorage());
+        $rate = new Rate(0.1, Rate::SECOND);
+        $bucket = new TokenBucket(1, $rate, new SingleProcessStorage());
         $bucket->bootstrap(0);
-        $consumer = new BlockingConsumer($bucket, 1);
-        
-        $consumer->consume(15);
+        $consumer = new BlockingConsumer($bucket, 9);
+
+        $consumer->consume(1);
     }
     
     /**
@@ -111,20 +126,21 @@ class BlockingConsumerTest extends \PHPUnit_Framework_TestCase
         $bucket->bootstrap(0);
         $consumer = new BlockingConsumer($bucket, 1);
         
-        $consumer->consume(9);
+        $consumer->consume(10);
+        $this->addToAssertionCount(1);
     }
     
     /**
-     * consume() should not never time out.
+     * consume() without timeout should never time out.
      */
     public function testConsumeWithoutTimeoutShouldNeverFail()
     {
-        // Same test as testConsumeShouldFailAfterTimeout() but without timeout
-        $rate = new Rate(10, Rate::SECOND);
-        $bucket = new TokenBucket(100, $rate, new SingleProcessStorage());
+        $rate = new Rate(0.1, Rate::YEAR);
+        $bucket = new TokenBucket(1, $rate, new SingleProcessStorage());
         $bucket->bootstrap(0);
         $consumer = new BlockingConsumer($bucket);
 
-        $consumer->consume(15);
+        $consumer->consume(1);
+        $this->addToAssertionCount(1);
     }
 }

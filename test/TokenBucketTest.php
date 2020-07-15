@@ -2,14 +2,34 @@
 
 namespace JouwWeb\TokenBucket\Test;
 
+use JouwWeb\TokenBucket\BlockingConsumer;
 use JouwWeb\TokenBucket\Rate;
 use JouwWeb\TokenBucket\Storage\SingleProcessStorage;
 use JouwWeb\TokenBucket\Storage\Storage;
 use JouwWeb\TokenBucket\TokenBucket;
+use JouwWeb\TokenBucket\Util\TokenConverter;
 use malkusch\lock\mutex\NoMutex;
+use PHPUnit\Framework\TestCase;
+use Symfony\Bridge\PhpUnit\ClockMock;
 
-class TokenBucketTest extends \PHPUnit_Framework_TestCase
+class TokenBucketTest extends TestCase
 {
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        ClockMock::register(__CLASS__);
+        ClockMock::register(BlockingConsumer::class);
+        ClockMock::register(TokenConverter::class);
+        ClockMock::register(TokenBucket::class);
+        ClockMock::withClockMock(true);
+    }
+
+    public function tearDown(): void
+    {
+        ClockMock::withClockMock(false);
+    }
+
     /**
      * Tests bootstrap() is bootstraps not on already bootstrapped storages.
      */

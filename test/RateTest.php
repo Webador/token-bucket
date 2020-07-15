@@ -3,8 +3,9 @@
 namespace JouwWeb\TokenBucket\Test;
 
 use JouwWeb\TokenBucket\Rate;
+use PHPUnit\Framework\TestCase;
 
-class RateTest extends \PHPUnit_Framework_TestCase
+class RateTest extends TestCase
 {
     /**
      * Tests getTokensPerSecond().

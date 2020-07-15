@@ -3,10 +3,11 @@
 namespace JouwWeb\TokenBucket\Test\Storage;
 
 use JouwWeb\TokenBucket\Storage\PredisStorage;
+use PHPUnit\Framework\TestCase;
 use Predis\Client;
 use Predis\ClientException;
 
-class PredisStorageTest extends \PHPUnit_Framework_TestCase
+class PredisStorageTest extends TestCase
 {
     /** @var Client The API. */
     private $redis;

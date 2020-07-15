@@ -4,6 +4,7 @@ namespace JouwWeb\TokenBucket\Test\Storage;
 
 use JouwWeb\TokenBucket\Storage\PDOStorage;
 use JouwWeb\TokenBucket\Storage\Storage;
+use PHPUnit\Framework\TestCase;
 
 /**
  * If you want to run vendor specific PDO tests you should provide these
@@ -12,39 +13,16 @@ use JouwWeb\TokenBucket\Storage\Storage;
  * - MYSQL_DSN, MYSQL_USER
  * - PGSQL_DSN, PGSQL_USER
  */
-class PDOStorageTest extends \PHPUnit_Framework_TestCase
+class PDOStorageTest extends TestCase
 {
     /** @var Storage[] The tested storages. */
     private $storages = [];
-    
+
     protected function tearDown()
     {
         foreach ($this->storages as $storage) {
             $storage->remove();
         }
-    }
-    
-    /**
-     * @return \PDO[][] The PDOs.
-     */
-    public function providePDO()
-    {
-        $cases = [
-            [new \PDO("sqlite::memory:")],
-        ];
-        if (getenv("MYSQL_DSN")) {
-            $pdo = new \PDO(getenv("MYSQL_DSN"), getenv("MYSQL_USER"));
-            $pdo->setAttribute(\PDO::ATTR_AUTOCOMMIT, false);
-            $cases[] = [$pdo];
-        }
-        if (getenv("PGSQL_DSN")) {
-            $pdo = new \PDO(getenv("PGSQL_DSN"), getenv("PGSQL_USER"));
-            $cases[] = [$pdo];
-        }
-        foreach ($cases as $case) {
-            $case[0]->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-        }
-        return $cases;
     }
 
     /**
@@ -54,6 +32,10 @@ class PDOStorageTest extends \PHPUnit_Framework_TestCase
      */
     public function testTooLongNameFails()
     {
+        if (!extension_loaded('pdo_sqlite')) {
+            $this->markTestSkipped('"pdo_sqlite" extension is not loaded.');
+        }
+
         $pdo = new \PDO("sqlite::memory:");
         $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
         new PDOStorage(str_repeat(" ", 129), $pdo);
@@ -64,6 +46,10 @@ class PDOStorageTest extends \PHPUnit_Framework_TestCase
      */
     public function testLongName()
     {
+        if (!extension_loaded('pdo_sqlite')) {
+            $this->markTestSkipped('"pdo_sqlite" extension is not loaded.');
+        }
+
         $pdo = new \PDO("sqlite::memory:");
         $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
         new PDOStorage(str_repeat(" ", 128), $pdo);
@@ -74,10 +60,14 @@ class PDOStorageTest extends \PHPUnit_Framework_TestCase
      *
      * @param int $errorMode The invalid error mode.
      * @expectedException \InvalidArgumentException
-     * @dataProvider provideTestInvalidErrorMode
+     * @dataProvider invalidErrorModeProvider
      */
-    public function testInvalidErrorMode($errorMode)
+    public function testInvalidErrorMode(int $errorMode)
     {
+        if (!extension_loaded('pdo_sqlite')) {
+            $this->markTestSkipped('"pdo_sqlite" extension is not loaded.');
+        }
+
         $pdo = new \PDO("sqlite::memory:");
         $pdo->setAttribute(\PDO::ATTR_ERRMODE, $errorMode);
         new PDOStorage("test", $pdo);
@@ -88,7 +78,7 @@ class PDOStorageTest extends \PHPUnit_Framework_TestCase
      *
      * @return int[][] Invalid error modes.
      */
-    public function provideTestInvalidErrorMode()
+    public function invalidErrorModeProvider()
     {
         return [
             [\PDO::ERRMODE_SILENT],
@@ -101,6 +91,10 @@ class PDOStorageTest extends \PHPUnit_Framework_TestCase
      */
     public function testValidErrorMode()
     {
+        if (!extension_loaded('pdo_sqlite')) {
+            $this->markTestSkipped('"pdo_sqlite" extension is not loaded.');
+        }
+
         $pdo = new \PDO("sqlite::memory:");
         $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
         new PDOStorage("test", $pdo);
@@ -110,10 +104,14 @@ class PDOStorageTest extends \PHPUnit_Framework_TestCase
      * Tests bootstrap() adds a row to an existing table.
      *
      * @param \PDO $pdo The PDO.
-     * @dataProvider providePDO
+     * @dataProvider pdoProvider
      */
-    public function testBootstrapAddsRow(\PDO $pdo)
+    public function testBootstrapAddsRow(string $pdoName, ?\PDO $pdo)
     {
+        if (!$pdo) {
+            $this->markTestSkipped(sprintf('%s PDO is not available.', $pdoName));
+        }
+
         $storageA = new PDOStorage("A", $pdo);
         $storageA->bootstrap(1);
         $this->storages[] = $storageA;
@@ -130,11 +128,15 @@ class PDOStorageTest extends \PHPUnit_Framework_TestCase
      * Tests bootstrap() would add a row to an existing table, but fails.
      *
      * @param \PDO $pdo The PDO.
-     * @dataProvider providePDO
+     * @dataProvider pdoProvider
      * @expectedException \JouwWeb\TokenBucket\Storage\StorageException
      */
-    public function testBootstrapFailsForExistingRow(\PDO $pdo)
+    public function testBootstrapFailsForExistingRow(string $pdoName, ?\PDO $pdo)
     {
+        if (!$pdo) {
+            $this->markTestSkipped(sprintf('%s PDO is not available.', $pdoName));
+        }
+
         $storageA = new PDOStorage("A", $pdo);
         $storageA->bootstrap(0);
         $this->storages[] = $storageA;
@@ -147,10 +149,14 @@ class PDOStorageTest extends \PHPUnit_Framework_TestCase
      * Tests remove() removes only one row.
      *
      * @param \PDO $pdo The PDO.
-     * @dataProvider providePDO
+     * @dataProvider pdoProvider
      */
-    public function testRemoveOneRow(\PDO $pdo)
+    public function testRemoveOneRow(string $pdoName, ?\PDO $pdo)
     {
+        if (!$pdo) {
+            $this->markTestSkipped(sprintf('%s PDO is not available.', $pdoName));
+        }
+
         $storageA = new PDOStorage("A", $pdo);
         $storageA->bootstrap(0);
         $this->storages[] = $storageA;
@@ -167,13 +173,52 @@ class PDOStorageTest extends \PHPUnit_Framework_TestCase
      * Tests remove() removes the table after the last row.
      *
      * @param \PDO $pdo The PDO.
-     * @dataProvider providePDO
+     * @dataProvider pdoProvider
      */
-    public function testRemoveTable(\PDO $pdo)
+    public function testRemoveTable(string $pdoName, ?\PDO $pdo)
     {
+        if (!$pdo) {
+            $this->markTestSkipped(sprintf('%s PDO is not available.', $pdoName));
+        }
+
         $storage = new PDOStorage("test", $pdo);
         $storage->bootstrap(0);
         $storage->remove();
         $this->assertFalse($storage->isBootstrapped());
+    }
+
+    /**
+     * @return mixed[][]
+     */
+    public function pdoProvider(): array
+    {
+        $pdos = [];
+
+        if (extension_loaded('pdo_sqlite')) {
+            $pdo = new \PDO("sqlite::memory:");
+            $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+            $pdos[] = ['sqlite', $pdo];
+        } else {
+            $pdos[] = ['sqlite', null];
+        }
+
+        if (extension_loaded('pdo_mysql') && getenv("MYSQL_DSN")) {
+            $pdo = new \PDO(getenv("MYSQL_DSN"), getenv("MYSQL_USER"));
+            $pdo->setAttribute(\PDO::ATTR_AUTOCOMMIT, false);
+            $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+            $pdos[] = ['mysql', $pdo];
+        } else {
+            $pdos[] = ['mysql', null];
+        }
+
+        if (extension_loaded('pdo_pgsql') && getenv("PGSQL_DSN")) {
+            $pdo = new \PDO(getenv("PGSQL_DSN"), getenv("PGSQL_USER"));
+            $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+            $pdos[] = ['pgsql', $pdo];
+        } else {
+            $pdos[] = ['pgsql', null];
+        }
+
+        return $pdos;
     }
 }

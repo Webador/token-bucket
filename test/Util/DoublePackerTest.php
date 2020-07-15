@@ -3,8 +3,9 @@
 namespace JouwWeb\TokenBucket\Test\Util;
 
 use JouwWeb\TokenBucket\Util\DoublePacker;
+use PHPUnit\Framework\TestCase;
 
-class DoublePackerTest extends \PHPUnit_Framework_TestCase
+class DoublePackerTest extends TestCase
 {
 
     /**

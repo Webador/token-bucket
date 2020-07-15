@@ -2,6 +2,6 @@
 
 namespace JouwWeb\TokenBucket;
 
-final class TimeoutException extends TokenBucketException
+class TimeoutException extends TokenBucketException
 {
 }

@@ -5,8 +5,9 @@ namespace JouwWeb\TokenBucket\Test\Storage;
 use JouwWeb\TokenBucket\Storage\FileStorage;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamFile;
+use PHPUnit\Framework\TestCase;
 
-class FileStorageTest extends \PHPUnit_Framework_TestCase
+class FileStorageTest extends TestCase
 {
     /**
      * Tests opening the file fails.

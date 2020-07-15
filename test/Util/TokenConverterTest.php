@@ -4,8 +4,9 @@ namespace JouwWeb\TokenBucket\Test\Util;
 
 use JouwWeb\TokenBucket\Rate;
 use JouwWeb\TokenBucket\Util\TokenConverter;
+use PHPUnit\Framework\TestCase;
 
-class TokenConverterTest extends \PHPUnit_Framework_TestCase
+class TokenConverterTest extends TestCase
 {
     /**
      * Tests convertSecondsToTokens().

@@ -3,11 +3,12 @@
 namespace JouwWeb\TokenBucket\Test\Storage;
 
 use JouwWeb\TokenBucket\Storage\PHPRedisStorage;
+use PHPUnit\Framework\TestCase;
 
 /**
  * These tests need the environment variable REDIS_URI.
  */
-class PHPRedisStorageTest extends \PHPUnit_Framework_TestCase
+class PHPRedisStorageTest extends TestCase
 {
     /** @var \Redis The API. */
     private $redis;
@@ -18,9 +19,13 @@ class PHPRedisStorageTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
+
+        if (!extension_loaded('redis')) {
+            $this->markTestSkipped('Skipped because "redis" extension is not loaded.');
+        }
         
         if (!getenv("REDIS_URI")) {
-            $this->markTestSkipped();
+            $this->markTestSkipped('Skipped because "REDIS_URI" environment variable is not set.');
         }
         $uri = parse_url(getenv("REDIS_URI"));
         $this->redis = new \Redis();

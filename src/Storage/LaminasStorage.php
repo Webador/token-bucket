@@ -3,10 +3,10 @@
 namespace JouwWeb\TokenBucket\Storage;
 
 use JouwWeb\TokenBucket\Storage\Scope\GlobalScope;
+use Laminas\Cache\Storage\StorageInterface;
 use malkusch\lock\mutex\CASMutex;
-use Zend\Cache\Storage\StorageInterface;
 
-class ZendStorage implements Storage, GlobalScope
+class LaminasStorage implements Storage, GlobalScope
 {
     const PREFIX = 'TokenBucket_';
 
@@ -74,7 +74,7 @@ class ZendStorage implements Storage, GlobalScope
     {
         $microtime = $this->storage->getItem($this->key, $success, $casToken);
 
-        if (!$microtime) {
+        if ($microtime === null) {
             if ($success) {
                 throw new StorageException('Stored microtime is invalid.');
             } else {

@@ -3,9 +3,18 @@
 namespace JouwWeb\TokenBucket\Test\Storage;
 
 use JouwWeb\TokenBucket\Storage\IPCStorage;
+use PHPUnit\Framework\TestCase;
 
-class IPCStorageTest extends \PHPUnit_Framework_TestCase
+class IPCStorageTest extends TestCase
 {
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        if (!extension_loaded('sysvsem')) {
+            $this->markTestSkipped('Skipped because "sysvsem" extension is not loaded.');
+        }
+    }
 
     /**
      * Tests building fails for an invalid key.
@@ -36,7 +45,7 @@ class IPCStorageTest extends \PHPUnit_Framework_TestCase
      * @expectedException \JouwWeb\TokenBucket\Storage\StorageException
      * @expectedExceptionMessage Could not remove semaphore.
      */
-    public function testfailRemovingSemaphore()
+    public function testFailRemovingSemaphore()
     {
         $key     = ftok(__FILE__, "a");
         $storage = new IPCStorage($key);

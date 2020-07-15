@@ -26,20 +26,22 @@
         }
     },
     "require": {
-        "php": ">=5.6",
-        "malkusch/lock": "^1",
-        "ext-bcmath":"*"
+        "php": ">=7.2.5",
+        "malkusch/lock": "^2.1",
+        "ext-bcmath": "*"
     },
     "require-dev": {
-        "predis/predis": "^1",
-        "phpunit/phpunit": "^5",
-        "mikey179/vfsstream": "^1.5.0",
-        "zendframework/zend-cache": "^2.8",
-        "symfony/var-dumper": "*"
+        "predis/predis": "^1.1.1",
+        "phpunit/phpunit": "^7.5.20",
+        "mikey179/vfsstream": "^1.6.8",
+        "laminas/laminas-cache": "^2.9.0",
+        "symfony/var-dumper": "^5.1.2",
+        "symfony/phpunit-bridge": "^5.1.2"
     },
     "config": {
         "platform": {
-            "php": "5.6.0"
-        }
+            "php": "7.2.5"
+        },
+        "sort-packages": true
     }
 }

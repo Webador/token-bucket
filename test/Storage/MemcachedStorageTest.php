@@ -3,8 +3,9 @@
 namespace JouwWeb\TokenBucket\Test\Storage;
 
 use JouwWeb\TokenBucket\Storage\MemcachedStorage;
+use PHPUnit\Framework\TestCase;
 
-class MemcachedStorageTest extends \PHPUnit_Framework_TestCase
+class MemcachedStorageTest extends TestCase
 {
     /** @var \Memcached The memcached API. */
     private $memcached;
@@ -16,10 +17,14 @@ class MemcachedStorageTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
+        if (!extension_loaded('memcached')) {
+            $this->markTestSkipped('"memcached" extension is not loaded.');
+        }
         if (!getenv("MEMCACHE_HOST")) {
-            $this->markTestSkipped();
+            $this->markTestSkipped('"MEMCACHE_HOST" environment variable is not set.');
             return;
         }
+
         $this->memcached = new \Memcached();
         $this->memcached->addServer(getenv("MEMCACHE_HOST"), 11211);
 
