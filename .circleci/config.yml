@@ -4,6 +4,9 @@ jobs:
     docker:
       - image: circleci/php:7.2.5-cli-stretch
     steps:
+      - run:
+          name: Install platform dependencies
+          command: sudo docker-php-ext-install bcmath
       - checkout
       - restore_cache:
           name: Restore dependencies
