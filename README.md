@@ -1,3 +1,6 @@
+> [!CAUTION]
+> This project is archived. Please implement the more recent [symfony/rate-limiter](https://github.com/symfony/rate-limiter). It also implements the token bucket algorithm and enjoys better support.
+
 # Token Bucket
 
 This is a fork of [bandwidth-throttle/token-bucket](https://github.com/bandwidth-throttle/token-bucket) originally created to add support for zend-cache (now laminas-cache).
